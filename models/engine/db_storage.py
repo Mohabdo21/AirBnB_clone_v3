@@ -86,9 +86,15 @@ class DBStorage:
 
     def count(self, cls=None):
         """Returns the number of objects in storage matching the given class"""
-        if cls is None or cls not in classes.values():
+        if cls is None:
+            total = 0
+            for cls in classes.values():
+                total += len(self.all(cls))
+            return total
+        elif cls not in classes.values():
             return 0
-        return len(self.all(cls))
+        else:
+            return len(self.all(cls))
 
     def close_session(self):
         """Close the current database session"""
