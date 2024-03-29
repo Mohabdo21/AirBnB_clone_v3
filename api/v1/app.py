@@ -2,7 +2,7 @@
 """Create a new Flask app"""
 from os import environ
 
-from flask import Flask
+from flask import Flask, jsonify, make_response
 
 from api.v1.views import app_views
 from models import storage
@@ -16,6 +16,12 @@ app.register_blueprint(app_views)
 def teardown_appcontext(exception):
     """Teardown appcontext"""
     storage.close()
+
+
+@app.errorhandler(404)
+def not_found(error):
+    """Handler for 404 errors"""
+    return make_response(jsonify({"error": "Not found"}), 404)
 
 
 if __name__ == "__main__":
