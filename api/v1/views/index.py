@@ -22,13 +22,13 @@ MODEL_CLASSES = {
 }
 
 
-@app_views.route("/status", strict_slashes=False)
+@app_views.route("/status", methods=["GET"])
 def status():
     """Status route"""
     return jsonify({"status": "OK"})
 
 
-@app_views.route("/stats", methods=["GET"], strict_slashes=False)
+@app_views.route("/stats", methods=["GET"])
 def get_storage_stats():
     """Returns the count of all instances of each class in storage."""
     stats = {key: storage.count(value) for key, value in MODEL_CLASSES.items()}
