@@ -39,7 +39,7 @@ def delete_state(state_id):
 def create_state():
     """Create a new state"""
     if request.content_type != 'application/json':
-        return abort(400, 'Not a JSON')
+        abort(400, 'Not a JSON')
     data = request.get_json()
     if data is None:
         abort(400, "Not a JSON")
@@ -54,7 +54,7 @@ def create_state():
 def update_state(state_id):
     """Update a specific state by its ID"""
     if request.content_type != 'application/json':
-        return abort(400, 'Not a JSON')
+        abort(400, 'Not a JSON')
     data = request.get_json()
     if data is None:
         abort(400, "Not a JSON")
