@@ -9,6 +9,7 @@ from models import storage
 
 app = Flask(__name__)
 app.config["JSONIFY_PRETTYPRINT_REGULAR"] = True
+app.config['JSON_SORT_KEYS'] = True
 app.register_blueprint(app_views)
 
 
