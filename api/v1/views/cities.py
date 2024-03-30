@@ -43,7 +43,7 @@ def delete_city(city_id):
 def create_city(state_id):
     """Create a new city"""
     if request.content_type != 'application/json':
-        return abort(400, 'Not a JSON')
+        abort(400, 'Not a JSON')
     state = storage.get(State, state_id)
     if state is None:
         abort(404)
@@ -62,7 +62,7 @@ def create_city(state_id):
 def update_city(city_id):
     """Update a specific city by its ID"""
     if request.content_type != 'application/json':
-        return abort(400, 'Not a JSON')
+        abort(400, 'Not a JSON')
     city = storage.get(City, city_id)
     if city is None:
         abort(404)
