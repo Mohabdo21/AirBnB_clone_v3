@@ -11,15 +11,6 @@ from models.user import User
 
 
 @app_views.route("/places/<string:place_id>/reviews", methods=["GET"])
-def get_review():
-    """Get all review"""
-    reviews = [
-        review.to_dict() for review in storage.all("Review").values()
-    ]
-    return jsonify(reviews), 200
-
-
-@app_views.route("/places/<string:place_id>/reviews", methods=["GET"])
 def get_review_place(place_id):
     """Get a specific place by its ID"""
     place = storage.get(Place, place_id)
