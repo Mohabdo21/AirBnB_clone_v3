@@ -7,6 +7,7 @@ from api.v1.views import app_views
 from models import storage
 from models.user import User
 
+
 @app_views.route("/users", methods=["GET"])
 def get_users():
     """Get all Users"""
@@ -48,7 +49,7 @@ def create_user():
         abort(400, 'Missing email')
     if "password" not in data:
         abort(400, 'Missing password')
-    user= User(**data)
+    user = User(**data)
     user.save()
     return make_response(jsonify(user.to_dict()), 201)
 
