@@ -12,7 +12,7 @@ from models.state import State
 def get_states():
     """Get all states"""
     states = [state.to_dict() for state in storage.all("State").values()]
-    return jsonify(states)
+    return jsonify(states), 200
 
 
 @app_views.route(
@@ -23,7 +23,7 @@ def get_state(state_id):
     state = storage.get(State, state_id)
     if state is None:
         abort(404)
-    return jsonify(state.to_dict())
+    return jsonify(state.to_dict()), 200
 
 
 @app_views.route(
