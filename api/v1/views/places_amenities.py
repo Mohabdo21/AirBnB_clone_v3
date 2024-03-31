@@ -11,7 +11,7 @@ from models.amenity import Amenity
 from models.place import Place
 
 
-@app_views.route("places/<place_id>/amenities", methods=["GET"])
+@app_views.route("/places/<place_id>/amenities", methods=["GET"])
 def get_place_amenities(place_id):
     """
     Retrieves the list of all Amenity objects of a Place
