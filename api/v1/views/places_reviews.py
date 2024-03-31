@@ -65,7 +65,7 @@ def create_Review(place_id):
     return (jsonify(review.to_dict()), 201)
 
 
-@app_views.route("/reviews/<string:review_id>", methods=["PUT"])
+@app_views.route("/reviews/<review_id>", methods=["PUT"])
 def update_review(review_id):
     """Update specific review by its ID"""
     if request.content_type != "application/json":
