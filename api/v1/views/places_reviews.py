@@ -53,12 +53,12 @@ def create_Review(place_id):
     place = storage.get(Place, place_id)
     if place is None:
         abort(404)
-    if "user_id" not in date:
+    if "user_id" not in place:
         abort(400, "Missing user_id")
     user = storage.get(User, date["user_id"])
     if not user:
         abort(404)
-    if "text" not in date:
+    if "text" not in user:
         abort(400, "Missing text")
     review = Review(**date)
     review.save()
