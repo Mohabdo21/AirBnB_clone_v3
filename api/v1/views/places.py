@@ -120,11 +120,12 @@ def search_places():
 
     # If amenities are provided, further filter the places based on amenities
     if amenity_ids:
-        places = [place for place in places if all(
-            amenity_id in (
-                a.id for a in place.amenities
-                ) for amenity_id in amenity_ids
-            )
-            ]
+        places = [
+                place for place in places if all(
+                    amenity_id in (
+                        a.id for a in place.amenities
+                        ) for amenity_id in amenity_ids
+                    )
+                ]
 
     return jsonify([place.to_dict() for place in places]), 200
