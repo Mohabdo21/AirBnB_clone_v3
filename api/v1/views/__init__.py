@@ -10,5 +10,6 @@ if app_views is not None:
     from api.v1.views.index import *
     from api.v1.views.places import *
     from api.v1.views.places_reviews import *
+    from api.v1.views.places_amenities import *
     from api.v1.views.states import *
     from api.v1.views.users import *
