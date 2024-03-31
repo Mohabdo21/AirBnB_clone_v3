@@ -10,7 +10,7 @@ from models.place import Place
 from models.user import User
 
 
-@app_views.route("/places/<string:place_id>/reviews", methods=["GET"])
+@app_views.route("/places/<place_id>/reviews", methods=["GET"])
 def get_review_place(place_id):
     """Get a specific place by its ID"""
     place = storage.get(Place, place_id)
