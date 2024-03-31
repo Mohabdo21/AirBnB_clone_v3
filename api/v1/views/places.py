@@ -5,9 +5,11 @@ from flask import abort, jsonify, make_response, request
 
 from api.v1.views import app_views
 from models import storage
+from models.state import State
 from models.city import City
 from models.place import Place
 from models.user import User
+from models.amenity import Amenity
 
 
 @app_views.route("/cities/<string:city_id>/places", methods=["GET"])
@@ -80,3 +82,65 @@ def update_place(place_id):
             setattr(place, key, value)
     place.save()
     return jsonify(place.to_dict()), 200
+
+
+@app_views.route('/places_search', methods=['POST'])
+def places_search():
+    """
+    Retrieves all Place objects depending on
+    the JSON in the body of the request
+    """
+    if request.content_type != "application/json":
+        abort(400, "Not a JSON")
+
+    data = request.get_json()
+
+    if not data:
+        abort(400, "Not a JSON")
+
+    states = data.get('states', [])
+    cities = data.get('cities', [])
+    amenities = data.get('amenities', [])
+
+    if not any([states, cities, amenities]):
+        places = storage.all(Place).values()
+        return jsonify([place.to_dict() for place in places])
+
+    list_places = get_places_by_states(states)
+    list_places += get_places_by_cities(cities, list_places)
+    list_places = filter_places_by_amenities(amenities, list_places)
+
+    return jsonify([place.to_dict() for place in list_places])
+
+
+def get_places_by_states(state_ids):
+    states = [storage.get(State, s_id) for s_id in state_ids]
+    places = []
+    for state in states:
+        if state:
+            for city in state.cities:
+                places.extend(city.places)
+    return places
+
+
+def get_places_by_cities(city_ids, existing_places):
+    cities = [storage.get(City, c_id) for c_id in city_ids]
+    places = []
+    for city in cities:
+        if city:
+            for place in city.places:
+                if place not in existing_places:
+                    places.append(place)
+    return places
+
+
+def filter_places_by_amenities(amenity_ids, places):
+    if not amenity_ids:
+        return places
+
+    amenities = [storage.get(Amenity, a_id) for a_id in amenity_ids]
+    return [
+            place for place in places if all(
+                am in place.amenities for am in amenities
+                )
+            ]
