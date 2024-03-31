@@ -26,7 +26,7 @@ def get_review_place(place_id):
 def get_review_id(review_id):
     """Get a specific review by its ID"""
     review = storage.get(Review, review_id)
-    if review_id is None:
+    if review is None:
         abort(404)
     return jsonify(review.to_dict()), 200
 
@@ -35,7 +35,7 @@ def get_review_id(review_id):
 def delete_Review(review_id):
     """Delete a specific Review by its ID"""
     review = storage.get(Review, review_id)
-    if review_id is None:
+    if review is None:
         abort(404)
     review.delete()
     storage.save()
