@@ -84,8 +84,12 @@ def update_place(place_id):
     return jsonify(place.to_dict()), 200
 
 
-@app.route('/api/v1/places_search', methods=['POST'])
+@app_views.route("/api/v1/places_search", methods=["POST"])
 def places_search():
+    """
+    Retrieves all Place objects depending of
+    the JSON in the body of the request
+    """
     if request.content_type != "application/json":
         abort(400, "Not a JSON")
     data = request.get_json()
