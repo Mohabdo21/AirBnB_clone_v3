@@ -96,7 +96,7 @@ def places_search():
     amenity_ids = data.get('amenities', [])
 
     all_places = []
-    with app.test_client() as c:
+    with app_views.test_client() as c:
         if states:
             for state_id in states:
                 state = storage.get(State, state_id)
