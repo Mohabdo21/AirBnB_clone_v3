@@ -2,7 +2,7 @@
 """Places endpoint"""
 
 from flask import abort, jsonify, make_response, request
-
+import logging
 from api.v1.views import app_views
 from models import storage
 from models.state import State
@@ -82,3 +82,46 @@ def update_place(place_id):
             setattr(place, key, value)
     place.save()
     return jsonify(place.to_dict()), 200
+
+
+@app_views.route("/api/v1/places_search", methods=["POST"])
+def search_places():
+    """Search for places based on the JSON in the request body"""
+    if request.content_type != "application/json":
+        abort(400, "Not a JSON")
+    if not request.is_json:
+        abort(400, "Not a JSON")
+    data = request.get_json()
+    states = data.get('states', [])
+    cities = data.get('cities', [])
+    amenity_ids = data.get('amenities', [])
+    if not states and not cities and not amenity_ids:
+        places = [place.to_dict() for place in storage.all(Place).values()]
+    else:
+        places = []
+        if states:
+            for state_id in states:
+                state = storage.get(State, state_id)
+                if state:
+                    for city in state.cities:
+                        for place in city.places:
+                            if place not in places:
+                                places.append(place)
+        if cities:
+            for city_id in cities:
+                city = storage.get(City, city_id)
+                if city:
+                    for place in city.places:
+                        if place not in places:
+                            places.append(place)
+        if amenity_ids:
+            amenities = [
+                    storage.get(
+                        Amenity, amenity_id
+                        ) for amenity_id in amenity_ids
+                    ]
+            places = [
+                    place for place in places
+                    if all(amenity in place.amenities for amenity in amenities)
+                    ]
+    return jsonify([place.to_dict() for place in places]), 200
