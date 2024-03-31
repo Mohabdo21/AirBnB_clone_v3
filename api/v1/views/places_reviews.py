@@ -42,7 +42,7 @@ def delete_Review(review_id):
     return jsonify({}), 200
 
 
-@app_views.route("/places/<string:place_id>/reviews", methods=["POST"])
+@app_views.route("/places/<place_id>/reviews", methods=["POST"])
 def create_Review(place_id):
     """Create a new Review"""
     if request.content_type != "application/json":
