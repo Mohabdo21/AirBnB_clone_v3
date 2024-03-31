@@ -1,7 +1,7 @@
 #!/usr/bin/python3
 """Place_Amenities Endpoints"""
 
-from os import getenv
+from os import environ
 
 from flask import abort, jsonify
 
@@ -32,9 +32,7 @@ def get_place_amenities(place_id):
     return jsonify(amenities)
 
 
-@app_views.route(
-        "/places/<place_id>/amenities/<amenity_id>", methods=["DELETE"]
-        )
+@app_views.route("/places/<place_id>/amenities/<amenity_id>", methods=["DELETE"])
 def delete_place_amenity(place_id, amenity_id):
     """
     Deletes a Amenity object of a Place
