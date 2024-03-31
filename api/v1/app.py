@@ -3,11 +3,15 @@
 from os import environ
 
 from flask import Flask, jsonify, make_response
+from flask_cors import CORS
 
 from api.v1.views import app_views
 from models import storage
 
 app = Flask(__name__)
+# CORS instance allowing all origins
+CORS(app, resources={r"/*": {"origins": "0.0.0.0"}})
+
 app.config["JSONIFY_PRETTYPRINT_REGULAR"] = True
 app.config['JSON_SORT_KEYS'] = True
 app.url_map.strict_slashes = False
