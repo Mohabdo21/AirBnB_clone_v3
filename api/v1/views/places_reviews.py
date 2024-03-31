@@ -60,6 +60,7 @@ def create_Review(place_id):
         abort(404)
     if "text" not in date:
         abort(400, "Missing text")
+    date['place_id'] = place_id
     review = Review(**date)
     review.save()
     return (jsonify(review.to_dict()), 201)
