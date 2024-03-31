@@ -102,3 +102,7 @@ class DBStorage:
     def close_session(self):
         """Close the current database session"""
         self.__session.close()
+
+    def rollback(self):
+        """Roll back the current database session"""
+        self.__session.rollback()

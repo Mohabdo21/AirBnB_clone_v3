@@ -24,6 +24,8 @@ class FileStorage:
     # dictionary - empty but will store all objects by <class name>.id
     __objects = {}
 
+    is_closed = False
+
     def all(self, cls=None):
         """returns the dictionary __objects"""
         if cls is not None:
@@ -73,6 +75,7 @@ class FileStorage:
     def close(self):
         """call reload() method for deserializing the JSON file to objects"""
         self.reload()
+        self.is_closed = True
 
     def get(self, cls, id):
         """ A method to retrieve one object
