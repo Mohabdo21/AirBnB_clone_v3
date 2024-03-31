@@ -22,7 +22,7 @@ def get_review_place(place_id):
     return jsonify(reviews), 200
 
 
-@app_views.route("/reviews/<string:review_id>", methods=["GET"])
+@app_views.route("/reviews/<review_id>", methods=["GET"])
 def get_review_id(review_id):
     """Get a specific review by its ID"""
     review = storage.get(Review, review_id)
