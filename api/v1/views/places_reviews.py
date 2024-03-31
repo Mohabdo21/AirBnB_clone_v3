@@ -14,7 +14,7 @@ from models.user import User
 def get_review_place(place_id):
     """Get a specific place by its ID"""
     place = storage.get(Place, place_id)
-    if place_id is None:
+    if place is None:
         abort(404)
     reviews = [
         review.to_dict() for review in place.reviews
@@ -22,7 +22,7 @@ def get_review_place(place_id):
     return jsonify(reviews), 200
 
 
-@app_views.route("reviews/<string:review_id>", methods=["GET"])
+@app_views.route("/reviews/<string:review_id>", methods=["GET"])
 def get_review_id(review_id):
     """Get a specific review by its ID"""
     review = storage.get(Review, review_id)
@@ -31,7 +31,7 @@ def get_review_id(review_id):
     return jsonify(review.to_dict()), 200
 
 
-@app_views.route("reviews/<string:review_id>", methods=["DELETE"])
+@app_views.route("/reviews/<string:review_id>", methods=["DELETE"])
 def delete_Review(review_id):
     """Delete a specific Review by its ID"""
     review = storage.get(Review, review_id)
@@ -42,7 +42,7 @@ def delete_Review(review_id):
     return jsonify({}), 200
 
 
-@app_views.route("places/<string:place_id>/reviews", methods=["POST"])
+@app_views.route("/places/<string:place_id>/reviews", methods=["POST"])
 def create_Review(place_id):
     """Create a new Review"""
     if request.content_type != "application/json":
@@ -65,7 +65,7 @@ def create_Review(place_id):
     return (jsonify(review.to_dict()), 201)
 
 
-@app_views.route("reviews/<string:review_id>", methods=["PUT"])
+@app_views.route("/reviews/<string:review_id>", methods=["PUT"])
 def update_review(review_id):
     """Update specific review by its ID"""
     if request.content_type != "application/json":
