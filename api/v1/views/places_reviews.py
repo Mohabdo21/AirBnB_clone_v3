@@ -47,7 +47,7 @@ def create_Review(place_id):
     """Create a new Review"""
     if request.content_type != "application/json":
         abort(400, "Not a JSON")
-    date = request.get_json()
+    date = request.get_json(place_id)
     if date is None:
         abort(400, "Not a JSON")
     place = storage.get(Place, place_id)
