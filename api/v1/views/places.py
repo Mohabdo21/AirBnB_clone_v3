@@ -116,7 +116,8 @@ def search_places():
         places = storage.all(Place).values()
     else:
         places = [
-            place for place in storage.all(Place).values() if place.city_id in city_ids
+            place for place in storage.all(Place).values()
+            if place.city_id in city_ids
         ]
 
     # If amenities are provided, further filter the places based on amenities
