@@ -1,11 +1,60 @@
 #!/usr/bin/python3
 """Test for User view"""
+import inspect
 import json
 import unittest
 
+import pep8
+
 from api.v1.app import app
+from api.v1.views import users
 from models import storage, storage_t
 from models.user import User
+
+
+class TestUserViewPEP8(unittest.TestCase):
+    """Test Class for PEP8 conformance in User view"""
+
+    @classmethod
+    def setUpClass(cls):
+        """Set up for the doc tests"""
+        cls.user_f = inspect.getmembers(users, inspect.isfunction)
+
+    def test_pep8_conformance_user_view(self):
+        """Test that api/v1/views/users.py conforms to PEP8."""
+        pep8s = pep8.StyleGuide(quiet=True)
+        result = pep8s.check_files(["api/v1/views/users.py"])
+        self.assertEqual(
+            result.total_errors, 0, "Found code style errors (and warnings)."
+        )
+
+    def test_pep8_conformance_test_user_view(self):
+        """Test that test_users.py conforms to PEP8."""
+        pep8s = pep8.StyleGuide(quiet=True)
+        result = pep8s.check_files(
+                ["tests/test_api/test_v1/test_views/test_users.py"]
+                )
+        self.assertEqual(
+            result.total_errors, 0, "Found code style errors (and warnings)."
+        )
+
+    def test_user_module_docstring(self):
+        """Test for the users.py module docstring"""
+        self.assertIsNot(users.__doc__, None, "users.py needs a docstring")
+        self.assertTrue(len(users.__doc__) >= 1, "users.py needs a docstring")
+
+    def test_user_func_docstrings(self):
+        """Test for the presence of docstrings in User functions"""
+        for func in self.user_f:
+            self.assertIsNot(
+                func[1].__doc__,
+                None,
+                "{:s} function needs a docstring".format(func[0])
+            )
+            self.assertTrue(
+                len(func[1].__doc__) >= 1,
+                "{:s} function needs a docstring".format(func[0]),
+            )
 
 
 class TestUser(unittest.TestCase):
