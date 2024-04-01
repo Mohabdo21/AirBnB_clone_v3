@@ -131,4 +131,10 @@ def search_places():
             )
         ]
 
-    return jsonify([place.to_dict() for place in places]), 200
+    result = []
+    for place in places:
+        _dict = place.to_dict()
+        _dict.pop('amenities', None)
+        result.append(_dict)
+
+    return jsonify(result), 200
