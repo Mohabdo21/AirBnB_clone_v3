@@ -92,7 +92,7 @@ def search_places():
     if request.content_type != "application/json":
         abort(400, "Not a JSON")
 
-    if not request.get_json():
+    if not request.is_json:
         abort(400, "Not a JSON")
 
     data = request.get_json()
